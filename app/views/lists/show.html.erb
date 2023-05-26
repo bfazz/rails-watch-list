@@ -1,7 +1,21 @@
-<%= @list.name %>
-
-<%= link_to "Add a movie to a list", new_list_bookmark_path(@list) %>
-
-<% @list.bookmarks.each do |list| %>
-<%= list.movie.title %>
+<h1><%= @list.name %></h1>
+<% if @list.movies.empty? %>
+<p>No movies yet!</p>
+<% else %>
+  <ul>
+    <% @list.movies.each do |movie| %>
+    <li><%= movie.title %></li>
+    <% end %>
+  </ul>
 <% end %>
+
+<h3>Add a movie</h3>
+
+<%= simple_form_for [@list, @bookmark] do |f| %>
+  <%= f.association :movie %>
+  <%= f.input :comment %>
+  <%= f.submit %>
+<% end %>
+
+<hr>
+<% link_to "Back to all list", lists_path %>
